@@ -1,0 +1,77 @@
+class Solution{
+    public static int minTime(Node root, int target) 
+    {
+        HashMap<Node,Node> hmap = new HashMap();
+        fillmap(hmap,root);
+        HashMap<Node,Boolean> visited = new HashMap();
+        Node tg = search(root,target);
+        visited.put(tg,true);
+        Queue<Node> q = new LinkedList();
+        q.add(tg);
+        q.add(null);
+        int level = 0;
+        while(!q.isEmpty()){
+            Node curr = q.remove();
+            if(curr==null){
+                if(q.isEmpty()){
+                    break;
+                }
+                else{
+                    level++;
+                    q.add(null);
+                }
+            }
+            else{
+            if(curr.left!=null&&!visited.containsKey(curr.left)){
+                q.add(curr.left);
+                visited.put(curr.left,true);
+            }
+            if(curr.right!=null&&!visited.containsKey(curr.right)){
+                q.add(curr.right);
+                visited.put(curr.right,true);
+        }
+            Node parent = hmap.get(curr);
+            if(parent!=null&&!visited.containsKey(parent)){
+                q.add(parent);
+                visited.put(parent,true);
+            }
+            }
+    }
+    return level;
+    }
+        public static Node search(Node root,int target){
+             Queue<Node> q = new LinkedList();
+        q.add(root);
+        while(!q.isEmpty()){
+            Node curr = q.remove();
+            if(curr.data == target){
+                return curr;
+            }
+            if(curr.left!=null){
+                q.add(curr.left);
+               
+            }
+            if(curr.right!=null){
+                q.add(curr.right);
+            
+        }
+        }
+        return null;
+    }
+    public static void fillmap(HashMap<Node,Node> hmap,Node root){
+        Queue<Node> q = new LinkedList();
+        q.add(root);
+        while(!q.isEmpty()){
+            Node curr = q.remove();
+            if(curr.left!=null){
+                q.add(curr.left);
+                hmap.put(curr.left,curr);
+            }
+            if(curr.right!=null){
+                q.add(curr.right);
+                hmap.put(curr.right,curr);
+            
+        }
+    }
+    }
+}

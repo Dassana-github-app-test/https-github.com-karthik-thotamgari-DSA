@@ -1,47 +1,70 @@
 class Solution {
-    public List<Integer> distanceK(TreeNode root, TreeNode target, int K) {
-        List<Integer> res = new ArrayList<>();
-        Map<TreeNode,TreeNode> parentsMap = new HashMap<>();
-        buildParentMap(root,root,parentsMap);//first root is node and second root is its parent considered
-        Set<TreeNode> visited = new HashSet<>(); //keep track of visited nodes
-        Queue<TreeNode> q = new LinkedList<>();//for BFS
-        q.add(target);  //instead of root here we are adding target as we need to find from that node
-        visited.add(target); //also target node need to be visited first
-        int level = 0; //as we are using level order traversal k == level then we find all the nodes in queue
-        while(q.size()>0){
-            int size = q.size();
-            if(level == K) return buildListFromQueue(q);//elements remaining in queue will be nodes at dist 
-            for(int i = 0;i<size;i++){                  //k from target
-                TreeNode t = q.remove();
-                if(t.left != null && !visited.contains(t.left)){
-                    q.add(t.left);
-                    visited.add(t.left);
-                }if(t.right != null && !visited.contains(t.right)){
-                    q.add(t.right);
-                    visited.add(t.right);
+    public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
+        HashMap<TreeNode,TreeNode> hmap = new HashMap();
+        fillmap(hmap,root);
+        HashMap<TreeNode,Boolean> visited = new HashMap();
+        visited.put(target,true);
+        Queue<TreeNode> q = new LinkedList();
+        q.add(target);
+        q.add(null);
+        int level = 0;
+        while(!q.isEmpty()){
+            if(level==k){
+                break;
+            }
+            
+            TreeNode curr = q.remove();
+            if(curr==null){
+                if(q.isEmpty()){
+                    break;
                 }
-                TreeNode parent = parentsMap.get(t);
-                if(!visited.contains(parent)){ //if parent is not visited 
-                    q.add(parent);//add parent to q
-                    visited.add(parent);   //mark it as visited
+                else{
+                    level++;
+                    q.add(null);
                 }
             }
-            level++; //we check levelwise and each level covers 1 unit distance 
+            else{
+            if(curr.left!=null&&!visited.containsKey(curr.left)){
+                q.add(curr.left);
+                visited.put(curr.left,true);
+            }
+            if(curr.right!=null&&!visited.containsKey(curr.right)){
+                q.add(curr.right);
+                visited.put(curr.right,true);
         }
-            return res;
+            TreeNode parent = hmap.get(curr);
+            if(parent!=null&&!visited.containsKey(parent)){
+                q.add(parent);
+                visited.put(parent,true);
+            }
+            }
+           // level++;
     }
-    private List<Integer> buildListFromQueue(Queue<TreeNode> q){
-        List<Integer> lst = new ArrayList<>();
-        while(q.size()>0){
-            lst.add(q.remove().val);
+        List<Integer> res = new ArrayList();
+        System.out.print(q);
+        while(!q.isEmpty()){
+            TreeNode curr = q.remove();
+            if(curr!=null){
+            res.add(curr.val);
+            }
+            }
+        return res;
+    }
+    
+    public void fillmap(HashMap<TreeNode,TreeNode> hmap,TreeNode root){
+        Queue<TreeNode> q = new LinkedList();
+        q.add(root);
+        while(!q.isEmpty()){
+            TreeNode curr = q.remove();
+            if(curr.left!=null){
+                q.add(curr.left);
+                hmap.put(curr.left,curr);
+            }
+            if(curr.right!=null){
+                q.add(curr.right);
+                hmap.put(curr.right,curr);
+            
         }
-        return lst;
     }
-    private void buildParentMap(TreeNode root,TreeNode parent,Map<TreeNode,TreeNode> parentsMap){
-        if(root == null)
-            return;
-        parentsMap.put(root,parent);
-        buildParentMap(root.left,root,parentsMap); //build for left subtree root.left will be child of root
-        buildParentMap(root.right,root,parentsMap);//build for right subtree
     }
 }

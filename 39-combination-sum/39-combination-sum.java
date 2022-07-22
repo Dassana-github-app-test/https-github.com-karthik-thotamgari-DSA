@@ -24,13 +24,10 @@ class Solution {
         List<List<Integer>> with = generatesum(arr,target-arr[i],i,ar);
         ar.remove(ar.size()-1);
         List<List<Integer>> without = generatesum(arr,target,i+1,ar);
-        List<List<Integer>> temp = new ArrayList<>();
-        for(List<Integer> i1:with){
-            temp.add(new ArrayList<>(i1));
-        }
+       // List<List<Integer>> temp = new ArrayList<>();
         for(List<Integer> i1:without){
-            temp.add(new ArrayList<>(i1));
+            with.add(new ArrayList<>(i1));
         }
-        return temp;
+        return with;
     }
 }

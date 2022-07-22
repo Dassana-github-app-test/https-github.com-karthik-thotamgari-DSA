@@ -6,15 +6,15 @@ class Solution {
         return generatesum(arr,target,0,ar);
     }
     public  List<List<Integer>> generatesum(int[] arr,int target, int i,List<Integer> ar) {
+        if(i==arr.length){
+              List<List<Integer>> temp = new ArrayList<>();
+                return temp;
+        }
         if(target==0){
             List<List<Integer>> temp = new ArrayList<>();
             temp.add(new ArrayList<>(ar));
             return temp;
         } 
-        if(i==arr.length){
-              List<List<Integer>> temp = new ArrayList<>();
-                return temp;
-        }
         
         if(arr[i]>target){
             List<List<Integer>> temp = new ArrayList<>();

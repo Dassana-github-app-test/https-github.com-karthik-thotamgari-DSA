@@ -1,28 +1,20 @@
 class Solution {
     public List<List<Integer>> subsetsWithDup(int[] nums) {
-        List<Integer> res = new ArrayList();
+        List<Integer> arr = new ArrayList();
+        List<List<Integer>> res = new ArrayList();
         Arrays.sort(nums);
-        HashSet<List<Integer>> hset =  new HashSet();
-        hset = getsubsets(nums,0,res);
-        List<List<Integer>> rest = new ArrayList();
-        for(List<Integer> l1:hset){
-            rest.add(new ArrayList(l1));
-        }
-        return rest;
+        getsubsets(nums,0,arr,res);
+        return res;
     }
-     public HashSet<List<Integer>> getsubsets(int[] nums,int i,List<Integer> res) {
-         if(i==nums.length){
-             HashSet<List<Integer>> temp = new HashSet();
-             temp.add(new ArrayList(res));
-             return temp;
-         }
-         res.add(nums[i]);
-         HashSet<List<Integer>> with = getsubsets(nums,i+1,res);
-         res.remove(res.size()-1);
-         HashSet<List<Integer>> without = getsubsets(nums,i+1,res);
-         for(List<Integer> i1:without){
-             with.add(i1);
-         }
-         return with;
-     }
+    public void getsubsets(int[] nums,int i,List<Integer> arr,List<List<Integer>> res) {
+        res.add(new ArrayList(arr));
+        for(int i1=i;i1<nums.length;i1++){
+            if(i1>i&&nums[i1]==nums[i1-1]){
+                continue;
+            }
+            arr.add(nums[i1]);
+            getsubsets(nums,i1+1,arr,res);
+            arr.remove(arr.size()-1);
+        }
+}
 }

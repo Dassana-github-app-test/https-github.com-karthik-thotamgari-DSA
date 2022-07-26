@@ -12,7 +12,6 @@ class Solution {
             return;
         }
         for(int i1=0;i1<nums.length;i1++){
-           
             if(hmap.contains(nums[i1])){
                 continue;
             }
@@ -24,32 +23,3 @@ class Solution {
         }
     }
 }
-// class Solution{
-// public List<List<Integer>> permute(int[] nums) {
-//         List<List<Integer>> ret = new ArrayList<>();
-
-//         backtrack(0,ret, new ArrayList<>(), new HashSet<>(), nums);
-
-//         return ret;
-
-//     }
-    
-//     private void backtrack(int i1,List<List<Integer>> ret, List<Integer> tmpList, Set<Integer> tmpSet, int[] nums) {
-//         if (i1 == nums.length) {
-//             ret.add(new ArrayList<>((tmpList)));
-//             return;
-//         }
-
-//         for (int i = 0; i < nums.length; i++) {
-//             if (tmpSet.contains(nums[i])) continue;
-            
-//             tmpSet.add(nums[i]);
-//             tmpList.add(nums[i]);
-            
-//             backtrack(i+1,ret, tmpList, tmpSet, nums);
-            
-//             tmpSet.remove(tmpList.get(tmpList.size()-1));
-//             tmpList.remove(tmpList.size()-1);
-//         }
-//     }
-// }

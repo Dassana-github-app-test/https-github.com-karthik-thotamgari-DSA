@@ -1,33 +1,35 @@
 class Solution {
     public List<List<Integer>> permuteUnique(int[] nums) {
-        Set<List<Integer>> res = new HashSet();
-        List<List<Integer>> rest = new ArrayList();
-        getpermutations(res,nums,0,0);
-        for(List<Integer> i:res){
-            rest.add(new ArrayList(i));
-        }
-        
-        return rest;
-    }
-    public void getpermutations(Set<List<Integer>> res,int[] nums,int start,int end){
-        if(end==nums.length||start==nums.length){
-            List<Integer> arr = new ArrayList();
-            for(int i=0;i<nums.length;i++){
-                arr.add(nums[i]);
+        List<List<Integer>> res = new ArrayList();
+        Map<Integer,Integer> hmap = new HashMap();        
+        List<Integer> arr = new ArrayList();
+        Arrays.sort(nums);
+        for(int i=0;i<nums.length;i++){
+            if(hmap.containsKey(nums[i])){
+                hmap.put(nums[i],hmap.get(nums[i])+1);
             }
+            else{
+                hmap.put(nums[i],1);
+            }
+        }
+        getpermutations(arr,res,nums,0,hmap);
+        return res;
+    }
+    public void getpermutations(List<Integer> arr,List<List<Integer>> res,int[] nums,int i, Map<Integer,Integer> hmap){
+        if(arr.size()==nums.length){
+            System.out.print(arr);
             res.add(new ArrayList(arr));
             return;
         }
-        for(int i=end;i<nums.length;i++){
-           // System.out.println("start : "+ start+" end: "+end );
-            swap(start,i,nums);
-            getpermutations(res,nums,start+1,end+1);
-            swap(start,i,nums);
+        for(int i1:hmap.keySet()){
+            if(hmap.get(i1)==0){
+                continue;
+            }
+            arr.add(i1);
+            hmap.put(i1,hmap.get(i1)-1);
+            getpermutations(arr,res,nums,i+1,hmap);
+            hmap.put(i1,hmap.get(i1)+1);
+            arr.remove(arr.size()-1);
         }
-    }
-    public void swap(int start,int end,int[] nums){
-        int temp = nums[start];
-        nums[start] = nums[end];
-        nums[end] = temp;
-    }
+}
 }

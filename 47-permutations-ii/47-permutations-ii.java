@@ -16,7 +16,7 @@ class Solution {
         return res;
     }
     public void getpermutations(List<Integer> arr,List<List<Integer>> res,int[] nums,int i, Map<Integer,Integer> hmap){
-        if(arr.size()==nums.length){
+        if(i==nums.length){
             System.out.print(arr);
             res.add(new ArrayList(arr));
             return;

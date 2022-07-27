@@ -1,25 +1,28 @@
 class Solution {
     public List<List<Integer>> permute(int[] nums) {
-        List<Integer> arr = new ArrayList();
-        Set<Integer> hmap = new HashSet();
         List<List<Integer>> res= new ArrayList();
-         getpermutations(nums,0,arr,res,hmap);
+         getpermutations(res,nums,0,0);
         return res;
     }
-    public void getpermutations(int[] nums,int i,List<Integer> arr,List<List<Integer>> res,Set<Integer> hmap) {
-        if(hmap.size()==nums.length){
-            res.add(new ArrayList((arr)));
+    public void getpermutations(List<List<Integer>> res,int[] nums,int start,int end){
+        if(end==nums.length||start==nums.length){
+            List<Integer> arr = new ArrayList();
+            for(int i=0;i<nums.length;i++){
+                arr.add(nums[i]);
+            }
+            res.add(new ArrayList(arr));
             return;
         }
-        for(int i1=0;i1<nums.length;i1++){
-            if(hmap.contains(nums[i1])){
-                continue;
-            }
-                hmap.add(nums[i1]);
-                arr.add(nums[i1]);
-                getpermutations(nums,i1+1,arr,res,hmap);
-                hmap.remove(arr.get(arr.size()-1));
-                arr.remove(arr.size()-1);
+        for(int i=end;i<nums.length;i++){
+           // System.out.println("start : "+ start+" end: "+end );
+            swap(start,i,nums);
+            getpermutations(res,nums,start+1,end+1);
+            swap(start,i,nums);
         }
+    }
+    public void swap(int start,int end,int[] nums){
+        int temp = nums[start];
+        nums[start] = nums[end];
+        nums[end] = temp;
     }
 }

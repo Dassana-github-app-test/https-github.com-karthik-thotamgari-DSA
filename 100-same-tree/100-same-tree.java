@@ -14,8 +14,7 @@ class Solution {
         if(!left||!right){
             return false;
         }
-        
-        
+        // raja jiiii
         return true;
     }
 }
